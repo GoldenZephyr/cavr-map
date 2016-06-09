@@ -31,7 +31,7 @@ ellipse3d(x, y, z, dx, dy, dz, rot)
 At this point, as with the 3d rectangle, only rotation around the z axis is supported. It's not clear exactly how the ellipse3d and to some extent the rect3d will be useful, but they will be included for robustness.
 
 
-"square" and "circle" and their 3d counterparts "cube" and "sphere" will be provided for convenience. These require 1 fewer argument and are just wrappers for the above objects. square is called as square(x, y, l, rot), where l is the side length. The same logic applies for the other three special objects.
+"square" and "circle" and their 3d counterparts "square3D" and "circle3D" will be provided for convenience. These require 1 fewer argument and are just wrappers for the above objects. square is called as square(x, y, l, rot), where l is the side length. The same logic applies for the other three special objects.
 
 
 The input file has a header used to give useful information about what the shapes represent. It also must specify the size of the grid to be used. The shape definitions are placed after the <BEGIN SHAPES> tag and before the <END SHAPES> tag. Comments can be added to the body with the "#" sign. An example input file follows:
