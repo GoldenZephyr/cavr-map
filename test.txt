@@ -6,13 +6,15 @@ NODATA_VALUE	-9999
 # COMMENTSSSSSSSSSSS
 
 <BEGIN SHAPES>
-Words I would like to see 123243798374 ddflkad;jlakdjfdd;ladkfjadf
-d;afkajdkfjdkalfjd
-fjdkfjlsakd;falk
+rect(0, 0, 5, 6, 90)
 
-dflka;djflaj
+ellipse(0, 0, 6, 5, 45)
+square(0, 0, 7, 0)
+circle(0, 0, 6, 156)
 
-dfakljda;fkl
+rect3d(8, 6, 4, 3, 4, 5, 6)
+ellipse3d(8, 6, 4, 3, 4, 5, 6)
+circle3d(0, 0, 0, 7, 49)
+square3d(4, 5, 6, 7, 8)
 
-adlkfjkdjf
 <END SHAPES>
