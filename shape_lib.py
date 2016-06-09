@@ -5,6 +5,49 @@ class Abstract2D(object):
                 self.lx = lx
                 self.ly = ly
                 self.rot = rot
+
+		# Derived Values
+		self.dx = lx/2
+		self.dy = ly/2
+
+	@property
+	def dx(self):
+		return self._dx
+	
+	@dx.setter
+	def dx(self, dx):
+		self._dx = dx
+		self._lx = 2*dx
+	@property
+	def dy(self):
+		return self._dy
+	
+	@dy.setter
+	def dy(self, dy):
+		self._dy = dy
+		self._ly = 2*dy
+
+	@property
+	def lx(self):
+		return self._lx
+
+	@lx.setter
+	def lx(self, lx):
+		self._lx = lx
+		self._dx = lx/2
+
+	@property
+	def ly(self):
+		return self._ly
+
+
+	@ly.setter
+	def ly(self, ly):
+		self._ly = ly
+		self._dy = ly/2
+
+
+
 class Abstract3D(object):
 	def __init__(self, x, y, z, lx, ly, lz, rot):
 		self.x = x

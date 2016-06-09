@@ -21,8 +21,8 @@ def add_to_array(shape, array):
 # When the object is inserted into the array map, it gets padded by 1 cell on each side. Therefore, to be consistent with the input shape size, we need to compensate by subtracting one here.
 
 	# Makes a list of all the integer x coordinates in the shape
-	x_coords = range(shape.x - shape.dx, shape.x + shape.dx + 1)
-	y_coords = range(shape.y - shape.dy, shape.y + shape.dy + 1)
+	x_coords = range(int(round(shape.x - shape.dx)), int(round(shape.x + shape.dx + 1)))
+	y_coords = range(int(round(shape.y - shape.dy)), int(round(shape.y + shape.dy + 1)))
 
 	for x in x_coords:
 		for y in y_coords:
@@ -32,8 +32,8 @@ def add_to_array(shape, array):
 
 			num = 15 
 			array[cp2.x][cp2.y] = num
+			# The rounding causes some points on the interior of the shape to be considered empty, so we fill in not only the point, but the neighbor points in the 4 cardinal directions
 			array[cp2.x + 1][cp2.y] = num
-			#array[cp2.x + 1][cp2.y + 1] = 1
 			array[cp2.x][cp2.y + 1] = num
 			array[cp2.x - 1][cp2.y] = num
 			array[cp2.x][cp2.y - 1] = num
