@@ -1,0 +1,4 @@
+ncol	10
+nrows	10
+cellsize	0.00001
+NODATA_VALUE	-9999
