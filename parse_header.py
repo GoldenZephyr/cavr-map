@@ -3,7 +3,7 @@
 import numpy as np
 from shape_lib import *
 import math
-
+from collections import namedtuple
 #filename = 'test.txt'
 #fo = open(filename, 'r+')
 #ncol = 0
@@ -18,16 +18,23 @@ def get_header_data(data):
 	return float(data)
 
 #stores all of the header data
-def write_header_data():
+def read_header_data(fo):
+	Header = namedtuple('Header', 'ncols nrows xllcenter yllcenter cellsize nodata_value')
 	col = fo.readline()
 	row = fo.readline()
+	xll = fo.readline()
+	yll = fo.readline()
 	cellsize = fo.readline()
 	nodata = fo.readline()
     
 	ncol = get_header_data(col)
 	nrows = get_header_data(row)
 	cell_size = get_header_data(cellsize)
+	xllcenter = get_header_data(xll)
+	yllcenter = get_header_data(yll)
 	no_data = get_header_data(nodata)
+	head = Header(ncol, nrows, xllcenter, yllcenter, cell_size, no_data)
+	return head
 
 #grabs all data between <BEGIN SHAPES> and <END SHAPES> tags
 def get_shape_data(fo):

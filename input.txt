@@ -1,0 +1,15 @@
+ncol	20
+nrows	20
+xllcenter	-121.8787
+yllcenter	36.6043
+cellsize	0.00001
+NODATA_VALUE	-9999
+
+# COMMENTSSSSSSSSSSS
+
+<BEGIN SHAPES>
+rect(10, 10, 5, 7, 45)
+
+
+<END SHAPES>
+

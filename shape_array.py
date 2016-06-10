@@ -5,14 +5,25 @@ import math
 from math import ceil
 from shape_lib import *
 from parse_header import *
+import argparse
 
 Point = namedtuple('Point', 'x y')
 
-def write2file(fn, arr):
+def write2file(fn, header, arr):
+	fo = open(fn, 'w')
+	fo.write('ncols	%d\n' % header.ncols)
+	fo.write('nrows	%d\n' % header.nrows)
+	fo.write('xllcenter	%f\n' % header.xllcenter)
+	fo.write('yllcenter 	%f\n' % header.yllcenter)
+	fo.write('cellsize	%f\n' % header.cellsize)
+	fo.write('nodata_value	%d\n' % header.nodata_value)
+
+	# This loop write the contents of arr to the output text file.
+	# The output is a grid of numbers separated by spaces
 	for ii in xrange(len(arr)):
-		fn.writelines(map(lambda x: str(int(x)) + ' ', arr[ii]))
-		fn.write('\n')
-	fn.close()
+		fo.writelines(map(lambda x: str(x) + ' ', arr[ii]))
+		fo.write('\n')
+	fo.close()
 
 def add_to_array(shape, array):
 	"""Adds the shape to the map array. """
@@ -27,17 +38,18 @@ def add_to_array(shape, array):
 
 	for x in x_coords:
 		for y in y_coords:
-			cpoint = Point(x - shape.x, y - shape.y)
-			cp1 = local_rotate(cpoint, shape.rot) # c', i.e. after rotation
-			cp2 = Point(int(round(cp1.x + shape.x)), int(round(cp1.y + shape.y))) # c'', i.e. after rotation and translation
+			if (x >= 1) and (y >= 1):
+				cpoint = Point(x - shape.x, y - shape.y)
+				cp1 = local_rotate(cpoint, shape.rot) # c', i.e. after rotation
+				cp2 = Point(int(round(cp1.x + shape.x)), int(round(cp1.y + shape.y))) # c'', i.e. after rotation and translation
 
-			num = 15 
-			array[cp2.x][cp2.y] = num
+				num = 15 
+				array[cp2.x][cp2.y] = num
 			# The rounding causes some points on the interior of the shape to be considered empty, so we fill in not only the point, but the neighbor points in the 4 cardinal directions
-			array[cp2.x + 1][cp2.y] = num
-			array[cp2.x][cp2.y + 1] = num
-			array[cp2.x - 1][cp2.y] = num
-			array[cp2.x][cp2.y - 1] = num
+				array[cp2.x + 1][cp2.y] = num
+				array[cp2.x][cp2.y + 1] = num
+				array[cp2.x - 1][cp2.y] = num
+				array[cp2.x][cp2.y - 1] = num	
 
 def local_rotate(pt, rot):
 	"""Rotates the point pt by the specified amount around the origin"""
@@ -52,8 +64,7 @@ def add_shapes(shape_list, arr):
 		add_to_array(shape,arr)
 
 
-def parse_input_file(fn):
-	fo = open(fn, 'r+')
+def parse_input_body(fo):
 	shapes_txt = get_shape_data(fo)
 	shapes_list = parse_shapes(shapes_txt)
 	return shapes_list
@@ -65,15 +76,27 @@ if __name__ == '__main__':
 #	add_to_array(rect1, base_matrix)
 #	fn = open('testout.txt', 'w')
 #	write2file(fn, base_matrix)
-	base_matrix = np.ones((50,50)) - 10000
-	file_name = 'atest_in.txt'
-	shapes_list = parse_input_file(file_name)
+	parser = argparse.ArgumentParser(description='Generate ascii map from input file')
+	parser.add_argument('--input', dest='input_name', help='Name of the input text file. Defaults to input.txt')
+	parser.add_argument('--output', dest='output_name', help='Name of the output .asc file. Defaults to output.asc')
+	args = parser.parse_args()
+	input_name = args.input_name
+	if not input_name:
+		input_name = 'input.txt'
+	output_name = args.output_name
+	if not output_name:
+		output_name = 'output.asc'	
+	fo = open(input_name, 'a+rw')
+	head = read_header_data(fo)
+
+	base_matrix = np.ones((head.nrows, head.ncols - 1)) - 1
+	# NOTE: the head.ncols - 1 is to fix an off by one error in map_prior.py, and needs  to be removed when that script gets fixed
+
+	shapes_list = parse_input_body(fo)
 	add_shapes(shapes_list, base_matrix)
-	fn = open('testout.txt','w')
-	write2file(fn, base_matrix)
-# TODO: Need to add command line argument support for the input and output file names
-# TODO: Need write the header into the file as well
-# TODO: Fix behavior of negative numbers inserted into matrix (e.g. a square centered at 0,0)
+	write2file(output_name, head, base_matrix)
 # TODO: Add ellipse
 # TODO: Add 3d ellipses
 # TODO: Set the depth based on SOMETHING
+# TODO: Make the parsing more robust (recognize spaces in addition to tabs)
+# TODO: Add ability to add shapes to existing ascii input
