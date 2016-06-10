@@ -33,23 +33,23 @@ def add_to_array(shape, array):
 # When the object is inserted into the array map, it gets padded by 1 cell on each side. Therefore, to be consistent with the input shape size, we need to compensate by subtracting one here.
 
 	# Makes a list of all the integer x coordinates in the shape
-	x_coords = range(int(round(shape.x - shape.dx)), int(round(shape.x + shape.dx + 1)))
-	y_coords = range(int(round(shape.y - shape.dy)), int(round(shape.y + shape.dy + 1)))
+	# Ensures that all coordinates are positive
+	x_coords = range(max(int(round(shape.x - shape.dx)), 1), int(round(shape.x + shape.dx + 1)))
+	y_coords = range(max(int(round(shape.y - shape.dy)), 1), int(round(shape.y + shape.dy + 1)))
 
 	for x in x_coords:
 		for y in y_coords:
-			if (x >= 1) and (y >= 1):
-				cpoint = Point(x - shape.x, y - shape.y)
-				cp1 = local_rotate(cpoint, shape.rot) # c', i.e. after rotation
-				cp2 = Point(int(round(cp1.x + shape.x)), int(round(cp1.y + shape.y))) # c'', i.e. after rotation and translation
+			cpoint = Point(x - shape.x, y - shape.y)
+			cp1 = local_rotate(cpoint, shape.rot) # c', i.e. after rotation
+			cp2 = Point(int(round(cp1.x + shape.x)), int(round(cp1.y + shape.y))) # c'', i.e. after rotation and translation
 
-				num = 15 
-				array[cp2.x][cp2.y] = num
+			num = 15 
+			array[cp2.x][cp2.y] = num
 			# The rounding causes some points on the interior of the shape to be considered empty, so we fill in not only the point, but the neighbor points in the 4 cardinal directions
-				array[cp2.x + 1][cp2.y] = num
-				array[cp2.x][cp2.y + 1] = num
-				array[cp2.x - 1][cp2.y] = num
-				array[cp2.x][cp2.y - 1] = num	
+			array[cp2.x + 1][cp2.y] = num
+			array[cp2.x][cp2.y + 1] = num
+			array[cp2.x - 1][cp2.y] = num
+			array[cp2.x][cp2.y - 1] = num	
 
 def local_rotate(pt, rot):
 	"""Rotates the point pt by the specified amount around the origin"""
@@ -95,8 +95,8 @@ if __name__ == '__main__':
 	shapes_list = parse_input_body(fo)
 	add_shapes(shapes_list, base_matrix)
 	write2file(output_name, head, base_matrix)
+# TODO: Add ability to add shapes to existing ascii input
+# TODO: Set the depth based on SOMETHING
 # TODO: Add ellipse
 # TODO: Add 3d ellipses
-# TODO: Set the depth based on SOMETHING
 # TODO: Make the parsing more robust (recognize spaces in addition to tabs)
-# TODO: Add ability to add shapes to existing ascii input
