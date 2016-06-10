@@ -4,12 +4,6 @@ import numpy as np
 from shape_lib import *
 import math
 from collections import namedtuple
-#filename = 'test.txt'
-#fo = open(filename, 'r+')
-#ncol = 0
-#nrows = 0
-#cell_size = 0
-#no_data = 0
 
 #function for grabbing data from a line of the header
 def get_header_data(data):
@@ -44,9 +38,6 @@ def get_shape_data(fo):
 	ind = data.find("<")
 	data = data[:-13]
 	return data
-
-#write_header_data()
-#shapes = get_shape_data()
 
 #function to shorten shape maker code
 def read_arg(shape):
@@ -316,4 +307,3 @@ def parse_shapes(shapes):
 	return shape_list
 
 
-#print parse_shapes(shapes)
