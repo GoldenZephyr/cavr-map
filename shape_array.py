@@ -43,7 +43,7 @@ def add_to_array(shape, array):
 			cp1 = local_rotate(cpoint, shape.rot) # c', i.e. after rotation
 			cp2 = Point(int(round(cp1.x + shape.x)), int(round(cp1.y + shape.y))) # c'', i.e. after rotation and translation
 
-			num = 15 
+			num = shape.depth
 			array[cp2.x][cp2.y] = num
 			# The rounding causes some points on the interior of the shape to be considered empty, so we fill in not only the point, but the neighbor points in the 4 cardinal directions
 			array[cp2.x + 1][cp2.y] = num
@@ -89,7 +89,7 @@ if __name__ == '__main__':
 	fo = open(input_name, 'a+rw')
 	head = read_header_data(fo)
 
-	base_matrix = np.ones((head.nrows, head.ncols - 1)) - 1
+	base_matrix = np.ones((head.nrows, head.ncols - 1)) - 100000 #Resulting in a matrix of -99999
 	# NOTE: the head.ncols - 1 is to fix an off by one error in map_prior.py, and needs  to be removed when that script gets fixed
 
 	shapes_list = parse_input_body(fo)

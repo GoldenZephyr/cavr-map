@@ -4,6 +4,7 @@ import numpy as np
 from shape_lib import *
 import math
 from collections import namedtuple
+import re
 
 #function for grabbing data from a line of the header
 def get_header_data(data):
@@ -39,242 +40,6 @@ def get_shape_data(fo):
 	data = data[:-13]
 	return data
 
-#function to shorten shape maker code
-def read_arg(shape):
-	ind = shape.find(",")
-	if(ind != -1):
-		clip = shape[:ind]
-	else:
-		ind = shape.find(")")
-		clip = shape[:ind]
-	return clip
-	
-def move_string(key, string):
-	ind = string.find(key)
-	string = string[(ind+1):]
-	return string
-
-#uses parse shape information to make shape objects
-def rect_maker(shape):
-	x = 0
-	y = 0
-	lx = 0
-	ly = 0
-	rot = 0
-
-	shape = move_string("(", shape)
-
-	x = int(read_arg(shape))
-	shape = move_string(" ", shape)
-	
-	y = int(read_arg(shape))
-	shape = move_string(" ", shape)
-	
-	lx = int(read_arg(shape))
-	shape = move_string(" ", shape)
-
-	ly = int(read_arg(shape))
-	shape = move_string(" ", shape)
-
-	rot = math.radians(float(read_arg(shape)))
-
-	rect = Rectangle(x, y, lx, ly, rot)
-	return rect
-
-def square_maker(shape):
-	x = 0
-	y = 0
-	l = 0
-	rot = 0
-
-	shape = move_string("(",shape)
-
-	x = int(read_arg(shape))
-	shape = move_string(" ",shape)
-	
-	y = int(read_arg(shape))
-	shape = move_string(" ",shape)
-	
-	l = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	rot = math.radians(float(read_arg(shape)))
-
-	square = Square(x, y, l, rot)
-	return square
-	
-
-def ellipse_maker(shape):
-	x = 0
-	y = 0
-	lx = 0
-	ly = 0
-	rot = 0
-
-	shape = move_string("(", shape)
-
-	x = int(read_arg(shape))
-	shape = move_string(" ",shape)
-	
-	y = int(read_arg(shape))
-	shape = move_string(" ",shape)
-	
-	lx = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	ly = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	rot = math.radians(float(read_arg(shape)))
-
-	ellipse = Ellipse(x, y, lx, ly, rot)
-	return ellipse
-
-
-def circle_maker(shape):
-	x = 0
-	y = 0
-	l = 0
-	rot = 0
-
-	shape = move_string("(", shape)
-
-	x = int(read_arg(shape))
-	shape = move_string(" ",shape)
-	
-	y = int(read_arg(shape))
-	shape = move_string(" ",shape)
-	
-	l = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	rot = math.radians(float(read_arg(shape)))
-
-	circle = Circle(x, y, l, rot)
-	return circle
-
-
-def rect3d_maker(shape):
-	x = 0
-	y = 0
-	z = 0
-	lx = 0
-	ly = 0
-	lz = 0
-	rot = 0
-
-	shape = move_string("(", shape)
-
-	x = int(read_arg(shape))
-	shape = move_string(" ",shape)
-	
-	y = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	z = int(read_arg(shape))
-	shape = move_string(" ",shape)
-	
-	lx = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	ly = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	lz = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	rot = math.radians(float(read_arg(shape)))
-
-	rect3d = Rectangle3D(x, y, z, lx, ly, lz, rot)
-	return rect3d
-
-
-def square3d_maker(shape):
-	x = 0
-	y = 0
-	z = 0
-	l = 0
-	rot = 0
-	
-	shape = move_string("(", shape)
-
-	x = int(read_arg(shape))
-	shape = move_string(" ",shape)
-	
-	y = int(read_arg(shape))
-	shape = move_string(" ",shape)
-	
-	z = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	l = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	rot = math.radians(float(read_arg(shape)))
-
-	square3d = Square3D(x, y, z, l, rot)
-	return square3d
-
-def ellipse3d_maker(shape):
-	x = 0
-	y = 0
-	z = 0
-	lx = 0
-	ly = 0
-	lz = 0
-	rot = 0
-	
-	shape = move_string("(", shape)
-
-	x = int(read_arg(shape))
-	shape = move_string(" ",shape)
-	
-	y = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	z = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	lx = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	ly = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	lz = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	rot = math.radians(float(read_arg(shape)))
-
-	ellipse3d = Ellipse3D(x, y, z, lx, ly, lz, rot)
-	return ellipse3d
-
-
-def circle3d_maker(shape):
-	x = 0
-	y = 0
-	z = 0
-	l = 0
-	rot = 0
-
-	shape = move_string("(", shape)
-
-	x = int(read_arg(shape))
-	shape = move_string(" ", shape)
-	
-	y = int(read_arg(shape))
-	shape = move_string(" ",shape)
-	
-	z = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	l = int(read_arg(shape))
-	shape = move_string(" ",shape)
-
-	rot = math.radians(float(read_arg(shape)))
-
-	circle3d = Circle3D(x, y, z, l, rot)
-	return circle3d
 
 #parses the shape information and creates objects for each
 def parse_shapes(shapes):
@@ -282,26 +47,28 @@ def parse_shapes(shapes):
 	while(shapes.find("\n") != -1):
 		ind = shapes.find("\n")
 		line = shapes[:ind]
+		matches = re.findall("\d+", line)
+		matches = map(int, matches)
 		if(line.find("rect") != -1):
 			if(line.find("3d") != -1):
-				shape_list.append(rect3d_maker(line))
+				shape_list.append(Rectangle3D(*matches))
 			else:
-				shape_list.append(rect_maker(line))
+				shape_list.append(Rectangle(*matches))
 		elif(line.find("ellipse") != -1):
 			if(line.find("3d") != -1):
-				shape_list.append(ellipse3d_maker(line))
+				shape_list.append(Ellipse3D(*matches))
 			else:
-				shape_list.append(ellipse_maker(line))
+				shape_list.append(Ellipse(*matches))
 		elif(line.find("square") != -1):
 			if(line.find("3d") != -1):
-				shape_list.append(square3d_maker(line))
+				shape_list.append(Square3D(*matches))
 			else:
-				shape_list.append(square_maker(line))
+				shape_list.append(Square(*matches))
 		elif(line.find("circle") != -1):
 			if(line.find("3d") != -1):
-				shape_list.append(circle3d_maker(line))
+				shape_list.append(Circle3D(*matches))
 			else:
-				shape_list.append(circle_maker(line))
+				shape_list.append(Circle(*matches))
 		shapes = shapes[(ind+1):]
 
 	return shape_list

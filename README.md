@@ -17,27 +17,27 @@ The coordinate system is determined from the lower left corner, but THIS IS SUBJ
 
 Rotation is input as degrees.
 
-The the "rect" command will graph a rectangle. In order to easily allow for specifying a rectangle that has some arbitrary rotation about the z axis, the shape is specified with the x and y coordinates of its center, the length and width of the rectangle, and the number of degrees through which the shape is rotated in the clockwise direction. To be clear, length and width (lx and ly) apply in the x and y direction, before rotation is applied. Then, the resulting object is rotated by the specified amount.
+The the "rect" command will graph a rectangle. In order to easily allow for specifying a rectangle that has some arbitrary rotation about the z axis, the shape is specified with the x and y coordinates of its center, the length and width of the rectangle, and the number of degrees through which the shape is rotated in the clockwise direction. The depth of the object also needs to be specified. To be clear, length and width (lx and ly) apply in the x and y direction, before rotation is applied. Then, the resulting object is rotated by the specified amount.
 
 The rectangle object descriptor has the form:
 
-rect(x, y, dx, dy, rot)
+rect(x, y, lx, ly, rot, depth)
 
 The rectangular prism will be specified similarly:
-rect3d(x, y, z, dx, dy, dz, rot)
+rect3d(x, y, z, lx, ly, lz, rot, depth)
 
 Note that as of now the rectangular prism can only be rotated about the z axis.
 
 An ellipse is specified by the coordinates of its center point, and the length of its two axes. It can also be rotated. An ellipse is specified as:
-ellipse(x, y, dx, dy, rot) where dx is the length of the axis in the x direction and dy is the length of the axis in the y direction. 
+ellipse(x, y, lx, ly, rot, depth) where dx is the length of the axis in the x direction and dy is the length of the axis in the y direction. 
 
 Finally, a spheroid is specified as:
-ellipse3d(x, y, z, dx, dy, dz, rot)
+ellipse3d(x, y, z, lx, ly, lz, rot, depth)
 
 At this point, as with the 3d rectangle, only rotation around the z axis is supported. It's not clear exactly how the ellipse3d and to some extent the rect3d will be useful, but they will be included for robustness.
 
 
-"square" and "circle" and their 3d counterparts "square3D" and "circle3D" will be provided for convenience. These require 1 fewer argument and are just wrappers for the above objects. square is called as square(x, y, l, rot), where l is the side length. The same logic applies for the other three special objects.
+"square" and "circle" and their 3d counterparts "square3D" and "circle3D" will be provided for convenience. These require 1 fewer argument and are just wrappers for the above objects. square is called as square(x, y, l, rot, depth), where l is the side length. The same logic applies for the other three special objects.
 
 
 The input file has a header used to give useful information about what the shapes represent. It also must specify the size of the grid to be used. The shape definitions are placed after the `<BEGIN SHAPES>` tag and before the `<END SHAPES>` tag. Comments can be added to the body with the "#" sign. An example input file follows:
