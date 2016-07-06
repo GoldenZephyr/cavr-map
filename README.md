@@ -13,8 +13,17 @@ Input
 =====
 The script assumes an input file is supplied. The input file contains information about the shapes that the user wants to add to the map. Each line of the file defines a different shape. There are a finite number of primitive shapes. As of now, only the rectangle, ellipse, and circle will be implemented. The selection will hopefully be expanded to include at least rectangular prisms and sphere, and spherical objects.
 
-The coordinate system is determined from the lower left corner, but THIS IS SUBJECT TO CHANGE. THIS NEEDS TO BE CONFIRMED.
+Disclaimer
+----------
+The coordinate system of the ascii map relative to the world map is currently
+undefined. As of now, the best solution is to find the `lat0` and `lon0`
+defined in `vlbv sim_lowlevel.launch` and use these as `yllcenter` and
+`xllcenter` (note that this may be reverse of what is logical). There is no
+guarantee of the ascii image's rotation relative to any world system. Right
+now, it just gives enough precision to have *something* show up in rviz.
 
+Input Explanation
+-----------------
 Rotation is input as degrees.
 
 The the "rect" command will graph a rectangle. In order to easily allow for specifying a rectangle that has some arbitrary rotation about the z axis, the shape is specified with the x and y coordinates of its center, the length and width of the rectangle, and the number of degrees through which the shape is rotated in the clockwise direction. The depth of the object also needs to be specified. To be clear, length and width (lx and ly) apply in the x and y direction, before rotation is applied. Then, the resulting object is rotated by the specified amount.
